@@ -71,7 +71,7 @@ async function loadFiles() {
     const ref = data.storage?.freeTierReference || 10 * 1024 * 1024 * 1024;
     els.storageUsed.textContent = formatBytes(used);
     els.storageMeter.style.width = `${Math.min(100, used / ref * 100)}%`;
-    els.storageCaption.textContent = `${formatBytes(used)} used • 10 GB free-tier reference`;
+    els.storageCaption.textContent = `${formatBytes(used)} used • 10 GB`;
     els.fileCount.textContent = String(data.storage?.count ?? files.length);
     renderFiles();
     els.loginModal.classList.add('hidden');
