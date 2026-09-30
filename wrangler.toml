@@ -1,4 +1,4 @@
-name = "mx-files-uploader"
+name = "mxfile"
 pages_build_output_dir = "./public"
 compatibility_date = "2026-09-30"
 
