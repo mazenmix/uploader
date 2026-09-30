@@ -1,3 +1,5 @@
+import './empty-trash.js';
+
 const folderList=document.querySelector('#folderList');
 const toastWrap=document.querySelector('#toastWrap');
 function authHeaders(){const token=sessionStorage.getItem('mx_admin_token')||'';return{'Content-Type':'application/json',Authorization:`Bearer ${token}`}}
