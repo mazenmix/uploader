@@ -2,45 +2,58 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#090b10">
+  <meta name="color-scheme" content="dark">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>MX Files</title>
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
   <header class="topbar">
-    <a class="brand" href="/"><span class="brand-mark">MX</span><span><strong>MX FILES</strong><small>by MazenmiX</small></span></a>
-    <div class="top-actions"><span class="status"><i></i> R2 READY</span><button class="ghost small" id="logoutBtn">Lock</button></div>
+    <a class="brand" href="/" aria-label="MX Files home">
+      <span class="brand-mark">MX</span>
+      <span class="brand-copy"><strong>MX FILES</strong><small>MazenmiX</small></span>
+    </a>
+    <button class="ghost small" id="logoutBtn" type="button">Lock</button>
   </header>
 
   <main class="shell">
-    <section class="hero">
-      <div class="eyebrow">PRIVATE FILE HOSTING</div>
-      <h1>Drop. Link. Done.</h1>
-      <p>Upload your files and instantly get a clean shareable link.</p>
-    </section>
-
-    <section class="upload-card" id="dropZone" tabindex="0">
+    <section class="upload-card" id="dropZone" tabindex="0" aria-label="Upload files">
       <input id="fileInput" type="file" multiple hidden>
-      <div class="upload-icon">↑</div>
-      <h2>Drop files here</h2>
-      <p>or choose them from your device</p>
-      <button class="primary" id="selectBtn">Select files</button>
-      <div class="upload-meta">Multipart upload • up to 10 GiB per file in this build</div>
+      <div class="upload-icon" aria-hidden="true">↑</div>
+      <div class="upload-copy">
+        <h1>Upload files</h1>
+        <p>Drop files here or select from your device.</p>
+      </div>
+      <button class="primary" id="selectBtn" type="button">Select files</button>
+      <div class="upload-meta">Any file type · up to 10 GiB per file</div>
     </section>
 
     <section class="queue" id="uploadQueue" hidden></section>
 
-    <section class="stats-grid">
-      <article class="stat-card"><span>Storage used</span><strong id="storageUsed">—</strong><div class="meter"><i id="storageMeter"></i></div><small id="storageCaption">R2 free-tier reference: 10 GB</small></article>
-      <article class="stat-card"><span>Hosted files</span><strong id="fileCount">—</strong><small>Every file receives a stable short ID</small></article>
-      <article class="stat-card"><span>Public links</span><strong>Direct</strong><small>Preview supported file types or download them</small></article>
+    <section class="stats-grid" aria-label="Storage overview">
+      <article class="stat-card storage-card">
+        <div class="stat-top"><span>Storage</span><strong id="storageUsed">—</strong></div>
+        <div class="meter"><i id="storageMeter"></i></div>
+        <small id="storageCaption">10 GB free-tier reference</small>
+      </article>
+      <article class="stat-card count-card">
+        <span>Files</span>
+        <strong id="fileCount">—</strong>
+        <small>Hosted in MX Files</small>
+      </article>
     </section>
 
     <section class="files-panel">
       <div class="panel-head">
-        <div><span class="eyebrow">FILE MANAGER</span><h2>Your uploads</h2></div>
-        <div class="toolbar"><label class="search"><span>⌕</span><input id="searchInput" type="search" placeholder="Search files" autocomplete="off"></label><button class="ghost" id="refreshBtn">Refresh</button></div>
+        <div class="panel-title"><span class="eyebrow">FILES</span><h2>Your uploads</h2></div>
+        <div class="toolbar">
+          <label class="search" aria-label="Search files"><span aria-hidden="true">⌕</span><input id="searchInput" type="search" placeholder="Search" autocomplete="off"></label>
+          <button class="ghost" id="refreshBtn" type="button">Refresh</button>
+        </div>
       </div>
       <div id="fileList" class="file-list"><div class="empty-state">Unlock MX Files to load your storage.</div></div>
     </section>
@@ -53,8 +66,8 @@
       <span class="brand-mark large">MX</span>
       <div class="eyebrow">ADMIN ACCESS</div>
       <h2>Unlock MX Files</h2>
-      <p>Enter the admin key configured in Cloudflare.</p>
-      <input id="adminKey" type="password" placeholder="Admin key" required>
+      <p>Enter your admin key to manage uploads.</p>
+      <input id="adminKey" type="password" placeholder="Admin key" required autocomplete="current-password">
       <button class="primary wide" type="submit">Unlock</button>
       <div class="form-error" id="loginError"></div>
     </form>
