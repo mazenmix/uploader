@@ -1,56 +1,7 @@
-import { findObjectById, objectName } from "../_lib/files.js";
-
-function isPreviewable(type, name) {
-  if (/^(image|video|audio)\//i.test(type)) return true;
-  if (/^application\/pdf$/i.test(type)) return true;
-  return /\.(png|jpe?g|gif|webp|svg|mp4|webm|mov|mp3|wav|m4a|ogg|pdf)$/i.test(name);
-}
-
-function dispositionName(name) {
-  const ascii = name.replace(/[^\x20-\x7E]/g, "_").replace(/["\\]/g, "_");
-  return `filename="${ascii}"; filename*=UTF-8''${encodeURIComponent(name)}`;
-}
-
-export async function onRequest({ request, env, params }) {
-  if (!['GET', 'HEAD'].includes(request.method)) {
-    return new Response('Method Not Allowed', { status: 405, headers: { Allow: 'GET, HEAD' } });
-  }
-
-  const objectMeta = await findObjectById(env.FILES, params.id);
-  if (!objectMeta) return new Response('File not found', { status: 404 });
-
-  const name = objectName(objectMeta);
-  const url = new URL(request.url);
-  const forceDownload = url.searchParams.get('download') === '1';
-  const rangeHeaders = request.headers.get('Range') ? request.headers : undefined;
-
-  const object = request.method === 'HEAD'
-    ? await env.FILES.head(objectMeta.key)
-    : await env.FILES.get(objectMeta.key, rangeHeaders ? { range: rangeHeaders } : undefined);
-
-  if (!object) return new Response('File not found', { status: 404 });
-
-  const headers = new Headers();
-  object.writeHttpMetadata(headers);
-  headers.set('ETag', object.httpEtag);
-  headers.set('Accept-Ranges', 'bytes');
-  headers.set('X-Content-Type-Options', 'nosniff');
-  headers.set('Cache-Control', 'public, max-age=3600');
-
-  const type = object.httpMetadata?.contentType || 'application/octet-stream';
-  const mode = !forceDownload && isPreviewable(type, name) ? 'inline' : 'attachment';
-  headers.set('Content-Disposition', `${mode}; ${dispositionName(name)}`);
-
-  let status = 200;
-  if (request.method === 'GET' && object.range && request.headers.get('Range')) {
-    const offset = object.range.offset ?? 0;
-    const length = object.range.length ?? object.size;
-    headers.set('Content-Range', `bytes ${offset}-${offset + length - 1}/${object.size}`);
-    headers.set('Content-Length', String(length));
-    status = 206;
-  } else {
-    headers.set('Content-Length', String(object.size));
-  }
-
-  return new Response(request.method === 'HEAD' ? null : object.body, { status, headers });
-}
+import { findObjectById, hashText, objectName, readJsonObject } from "../_lib/files.js";
+function isPreviewable(type,name){if(/^(image|video|audio)\//i.test(type))return true;if(/^application\/pdf$/i.test(type))return true;return /\.(png|jpe?g|gif|webp|svg|mp4|webm|mov|mp3|wav|m4a|ogg|pdf)$/i.test(name)}
+function dispositionName(name){const ascii=name.replace(/[^\x20-\x7E]/g,"_").replace(/["\\]/g,"_");return`filename="${ascii}"; filename*=UTF-8''${encodeURIComponent(name)}`}
+function cookieValue(request,name){const cookies=request.headers.get("Cookie")||"";for(const part of cookies.split(";")){const[key,...rest]=part.trim().split("=");if(key===name)return decodeURIComponent(rest.join("="))}return""}
+function accessPage(title,message="Enter password to continue"){return`<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>${title}</title><style>body{margin:0;background:#07090d;color:#fff;font-family:system-ui;display:grid;place-items:center;min-height:100vh}.c{width:min(380px,calc(100% - 32px));background:#11151e;border:1px solid #2b3441;border-radius:20px;padding:28px;box-shadow:0 30px 80px #0008}.m{color:#ff9b35;font-weight:900;letter-spacing:.12em}.c h1{font-size:22px}.c p{color:#9aa3b3}.c input,.c button{width:100%;height:46px;border-radius:11px;box-sizing:border-box}.c input{background:#090c11;border:1px solid #36404f;color:#fff;padding:0 13px;margin:8px 0 10px}.c button{border:0;background:linear-gradient(135deg,#ffd17d,#ff8a1f);font-weight:800}</style></head><body><form class="c" method="post"><div class="m">MX FILE</div><h1>${title}</h1><p>${message}</p><input name="password" type="password" placeholder="Password" required autofocus><button>Unlock file</button></form></body></html>`}
+async function resolveObject(bucket,idOrAlias){let object=await findObjectById(bucket,idOrAlias);if(object)return object;const alias=String(idOrAlias||"").toLowerCase().replace(/[^a-z0-9_-]/g,"");if(!alias)return null;const marker=await readJsonObject(bucket,`_mx/aliases/${alias}.json`,null);if(!marker?.id)return null;return findObjectById(bucket,marker.id)}
+export async function onRequest(context){const{request,env,params}=context;if(!["GET","HEAD","POST"].includes(request.method))return new Response("Method Not Allowed",{status:405});const objectMeta=await resolveObject(env.FILES,params.id);if(!objectMeta)return new Response("File not found",{status:404});const meta=objectMeta.customMetadata||{};if(meta.public==="0")return new Response("File not found",{status:404});if(meta.expiresAt&&Date.now()>Date.parse(meta.expiresAt))return new Response("This link has expired.",{status:410});const id=objectMeta.key.split("/",1)[0],authCookie=`mxf_${id}`;if(meta.passwordHash){const allowed=cookieValue(request,authCookie)===meta.passwordHash;if(!allowed){if(request.method==="POST"){const form=await request.formData(),candidate=await hashText(form.get("password")||"");if(candidate!==meta.passwordHash)return new Response(accessPage("Protected file","Password is not correct."),{status:401,headers:{"Content-Type":"text/html; charset=utf-8"}});return new Response(null,{status:303,headers:{Location:new URL(request.url).pathname,"Set-Cookie":`${authCookie}=${meta.passwordHash}; Path=/f/${encodeURIComponent(params.id)}; Secure; HttpOnly; SameSite=Lax; Max-Age=86400`}})}return new Response(accessPage("Protected file"),{status:401,headers:{"Content-Type":"text/html; charset=utf-8"}})}}const name=objectName(objectMeta),url=new URL(request.url),forceDownload=url.searchParams.get("download")==="1",rangeHeaders=request.headers.get("Range")?request.headers:undefined,object=request.method==="HEAD"?await env.FILES.head(objectMeta.key):await env.FILES.get(objectMeta.key,rangeHeaders?{range:rangeHeaders}:undefined);if(!object)return new Response("File not found",{status:404});if(request.method==="GET"&&context.waitUntil)context.waitUntil((async()=>{const key=`_mx/stats/${id}.json`,stats=await readJsonObject(env.FILES,key,{downloads:0});stats.downloads=Number(stats.downloads||0)+1;stats.lastAccessed=new Date().toISOString();await env.FILES.put(key,JSON.stringify(stats),{httpMetadata:{contentType:"application/json; charset=utf-8"},customMetadata:{downloads:String(stats.downloads),lastAccessed:stats.lastAccessed}})})());const headers=new Headers();object.writeHttpMetadata(headers);headers.set("ETag",object.httpEtag);headers.set("Accept-Ranges","bytes");headers.set("X-Content-Type-Options","nosniff");headers.set("Cache-Control","public, max-age=3600");const type=object.httpMetadata?.contentType||"application/octet-stream";headers.set("Content-Disposition",`${!forceDownload&&isPreviewable(type,name)?"inline":"attachment"}; ${dispositionName(name)}`);let status=200;if(request.method==="GET"&&object.range&&request.headers.get("Range")){const offset=object.range.offset??0,length=object.range.length??object.size;headers.set("Content-Range",`bytes ${offset}-${offset+length-1}/${object.size}`);headers.set("Content-Length",String(length));status=206}else headers.set("Content-Length",String(object.size));return new Response(request.method==="HEAD"?null:object.body,{status,headers})}
