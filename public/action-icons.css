@@ -1,0 +1,106 @@
+.file-actions{
+  display:flex!important;
+  justify-content:flex-end!important;
+  align-items:center!important;
+  gap:9px!important;
+  flex-wrap:wrap!important;
+}
+.file-actions .icon-btn{
+  width:43px!important;
+  height:43px!important;
+  min-width:43px!important;
+  min-height:43px!important;
+  padding:0!important;
+  display:grid!important;
+  place-items:center!important;
+  border-radius:12px!important;
+  border:1px solid #303b47!important;
+  background:linear-gradient(180deg,#141b23 0%,#0d131a 100%)!important;
+  color:#d8dee7!important;
+  font-size:17px!important;
+  font-weight:750!important;
+  line-height:1!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.045),0 5px 14px rgba(0,0,0,.2)!important;
+  transition:transform .16s ease,border-color .16s ease,background .16s ease,color .16s ease,box-shadow .16s ease!important;
+}
+.file-actions .icon-btn:hover{
+  transform:translateY(-2px)!important;
+  border-color:rgba(255,139,35,.72)!important;
+  background:linear-gradient(180deg,rgba(255,121,0,.22),rgba(255,121,0,.08))!important;
+  color:#fff!important;
+  box-shadow:0 8px 22px rgba(0,0,0,.28),0 0 18px rgba(255,121,0,.14),inset 0 1px 0 rgba(255,255,255,.08)!important;
+}
+.file-actions .icon-btn:active{
+  transform:translateY(0) scale(.97)!important;
+}
+.file-actions .icon-btn[data-action="preview"]{
+  border-color:rgba(255,145,32,.38)!important;
+  color:#ffb45a!important;
+}
+.file-actions .icon-btn[data-action="download"]{
+  color:#ffc76c!important;
+}
+.file-actions .icon-btn[data-action="edit"]{
+  color:#f0f3f7!important;
+}
+.file-actions .icon-btn[data-action="trash"]{
+  color:#aeb7c4!important;
+}
+.file-actions .icon-btn[data-action="trash"]:hover,
+.file-actions .icon-btn[data-action="purge"]:hover{
+  border-color:rgba(255,82,97,.58)!important;
+  background:linear-gradient(180deg,rgba(255,82,97,.16),rgba(255,82,97,.06))!important;
+  color:#ff7b87!important;
+  box-shadow:0 8px 22px rgba(0,0,0,.28),0 0 15px rgba(255,82,97,.1)!important;
+}
+
+/* Give the action area more breathing room on large screens. */
+@media(min-width:1181px){
+  .file-row{
+    grid-template-columns:auto minmax(220px,1.4fr) 82px 155px 70px minmax(355px,auto)!important;
+    gap:12px!important;
+  }
+}
+
+/* Medium screens: keep the controls comfortable and allow a clean two-line wrap if needed. */
+@media(max-width:1180px){
+  .file-actions{
+    justify-content:flex-start!important;
+    max-width:330px;
+  }
+  .file-actions .icon-btn{
+    width:41px!important;
+    height:41px!important;
+    min-width:41px!important;
+    min-height:41px!important;
+    font-size:16px!important;
+  }
+}
+
+@media(max-width:760px){
+  .file-actions{
+    gap:7px!important;
+    margin-top:10px;
+    max-width:none;
+  }
+  .file-actions .icon-btn{
+    width:40px!important;
+    height:40px!important;
+    min-width:40px!important;
+    min-height:40px!important;
+    border-radius:11px!important;
+  }
+}
+
+@media(max-width:460px){
+  .file-actions{
+    justify-content:flex-start!important;
+    gap:8px!important;
+  }
+  .file-actions .icon-btn{
+    width:42px!important;
+    height:42px!important;
+    min-width:42px!important;
+    min-height:42px!important;
+  }
+}
