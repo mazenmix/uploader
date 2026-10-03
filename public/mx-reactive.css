@@ -1,0 +1,29 @@
+/* MX File reactive UI layer — instant in-place feedback, no page reloads */
+.file-row{will-change:transform,opacity,max-height;margin,padding}
+.file-row.mx-live-removing{
+  pointer-events:none!important;
+  overflow:hidden!important;
+  opacity:0!important;
+  transform:translateX(18px) scale(.985)!important;
+  max-height:0!important;
+  min-height:0!important;
+  margin-top:0!important;
+  margin-bottom:0!important;
+  padding-top:0!important;
+  padding-bottom:0!important;
+  border-width:0!important;
+  transition:opacity .18s ease,transform .18s ease,max-height .22s ease,min-height .22s ease,padding .22s ease,margin .22s ease,border-width .22s ease!important;
+}
+.detail-section{transform-origin:top center;will-change:opacity,transform,max-height}
+.detail-section.mx-live-closing{
+  pointer-events:none!important;
+  opacity:0!important;
+  transform:translateY(-6px) scale(.995)!important;
+  max-height:0!important;
+  margin-top:0!important;
+  overflow:hidden!important;
+  transition:opacity .14s ease,transform .14s ease,max-height .19s ease,margin .19s ease!important;
+}
+.mx-live-flash{animation:mxLiveFlash .32s ease}
+@keyframes mxLiveFlash{0%{background-color:rgba(255,121,0,.13)}100%{background-color:transparent}}
+@media(prefers-reduced-motion:reduce){.file-row.mx-live-removing,.detail-section.mx-live-closing{transition:none!important;transform:none!important}.mx-live-flash{animation:none}}
