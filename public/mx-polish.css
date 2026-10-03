@@ -1,0 +1,81 @@
+/* MX File live polish — filename visibility, consistent delete action, smoother interaction */
+
+html{scroll-behavior:smooth}
+
+/* Keep the list grid aligned even when bulk selection is off.
+   The dashboard uses a dedicated checkbox column; the hidden checkbox must still reserve it. */
+.file-row>.select-box[hidden]{
+  display:block!important;
+  visibility:hidden!important;
+  pointer-events:none!important;
+}
+
+/* Always show the complete file name instead of collapsing it into the checkbox column. */
+.file-main,.file-copy{min-width:0!important;overflow:visible!important}
+.file-copy{width:100%}
+.file-name{
+  display:block!important;
+  max-width:100%!important;
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+  overflow-wrap:anywhere!important;
+  word-break:break-word;
+  line-height:1.35!important;
+}
+
+/* Consistent destructive action styling. */
+.file-actions .icon-btn[data-action="trash"]{
+  color:#ff7d88!important;
+  border-color:rgba(255,82,97,.40)!important;
+}
+.file-actions .icon-btn[data-action="trash"] svg{
+  width:18px;height:18px;display:block;pointer-events:none;
+}
+.file-actions .icon-btn[data-action="trash"]:hover{
+  color:#ff9ca5!important;
+  border-color:rgba(255,82,97,.72)!important;
+  background:linear-gradient(180deg,rgba(255,82,97,.16),#0d1319)!important;
+  box-shadow:0 7px 20px rgba(255,82,97,.10)!important;
+}
+
+/* Activity clear button */
+.mx-clear-activity-btn{
+  display:none;
+  min-height:39px;
+  padding:0 14px;
+  border:1px solid rgba(255,82,97,.50);
+  border-radius:10px;
+  background:linear-gradient(180deg,rgba(255,82,97,.15),rgba(255,82,97,.06));
+  color:#ff7d88;
+  font-weight:800;
+  cursor:pointer;
+  white-space:nowrap;
+}
+.mx-clear-activity-btn.visible{display:inline-flex;align-items:center;justify-content:center;gap:7px}
+.mx-clear-activity-btn:hover{transform:translateY(-1px);border-color:rgba(255,82,97,.78);box-shadow:0 8px 22px rgba(255,82,97,.10)}
+.mx-clear-activity-btn:disabled{opacity:.55;cursor:wait;transform:none}
+
+/* General motion polish */
+button,.nav-btn,.side-item,.filter,.quick-btn,.icon-btn,.file-row,.activity-item,.preview-card,.inspector-card{
+  transition:transform .16s ease,border-color .16s ease,background-color .16s ease,box-shadow .16s ease,color .16s ease,opacity .16s ease;
+}
+.quick-btn:hover,.side-item:hover{transform:translateY(-1px)}
+.file-row:hover{transform:translateY(-1px)}
+.mx-enter{animation:mxRowIn .22s ease both}
+@keyframes mxRowIn{from{opacity:.35;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+
+@media (max-width:1050px){
+  /* Keep the named mobile/tablet grid areas intact. */
+  .file-row>.select-box[hidden]{display:block!important;visibility:hidden!important}
+  .file-name{white-space:normal!important;overflow-wrap:anywhere!important}
+}
+
+@media (max-width:760px){
+  .mx-clear-activity-btn.visible{width:100%;min-height:43px;order:11}
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
