@@ -1,0 +1,71 @@
+/* MX File premium features — intentionally additive and visually quiet */
+
+.mx-name-line{display:flex;align-items:flex-start;gap:7px;min-width:0;width:100%}
+.mx-name-line .file-name{flex:1;min-width:0}
+.mx-pin{flex:0 0 23px;width:23px;height:23px;margin-top:-2px;border:0;background:transparent;color:#596473;font-size:16px;line-height:1;display:grid;place-items:center;border-radius:7px;padding:0;cursor:pointer;opacity:.72;transition:.16s ease}
+.mx-pin:hover{color:#ffb23f;background:#ff790012;opacity:1;transform:scale(1.07)}
+.mx-pin.pinned{color:#ffae32;opacity:1;text-shadow:0 0 14px #ff79005c}
+.file-row.mx-pinned-row{box-shadow:inset 2px 0 rgba(255,145,32,.78)}
+
+.mx-pinned-filter{gap:6px}
+.mx-pinned-filter span{font-size:13px}
+
+.folder-row.mx-drop-target .folder-open,
+.side-item.mx-drop-target{border-color:#ff9c2f!important;background:linear-gradient(90deg,#ff79003a,#ff79000c)!important;box-shadow:0 0 0 2px #ff790018,inset 3px 0 #ff7900!important}
+.file-row[draggable="true"]{cursor:default}
+.file-row.mx-dragging{opacity:.48;transform:scale(.995)}
+.file-row.mx-removing{opacity:0!important;transform:scale(.98)!important;max-height:0!important;min-height:0!important;padding-top:0!important;padding-bottom:0!important;margin:0!important;border-width:0!important;overflow:hidden!important;transition:opacity .22s ease,transform .22s ease,max-height .26s ease,padding .26s ease!important}
+
+.mx-copy-ok{color:#6fe39b!important;border-color:#6fe39b66!important;background:#12301f!important}
+
+/* Command palette */
+.mx-command-backdrop{position:fixed;inset:0;z-index:180;background:#020407a8;backdrop-filter:blur(11px);display:grid;place-items:start center;padding:10vh 18px 18px;opacity:0;pointer-events:none;transition:opacity .16s ease}
+.mx-command-backdrop.open{opacity:1;pointer-events:auto}
+.mx-command{width:min(680px,100%);border:1px solid #35404b;border-radius:18px;background:linear-gradient(180deg,#10161e,#080d12);box-shadow:0 34px 110px #000c,0 0 40px #ff790014;overflow:hidden;transform:translateY(-10px) scale(.99);transition:transform .17s ease}
+.mx-command-backdrop.open .mx-command{transform:translateY(0) scale(1)}
+.mx-command-search{display:flex;align-items:center;gap:10px;padding:14px 15px;border-bottom:1px solid #242e38}
+.mx-command-search>span{color:#ff9e2e;font-size:20px}
+.mx-command-search input{flex:1;min-width:0;border:0;outline:0;background:transparent;color:#fff;font:600 16px/1.2 system-ui;padding:5px 0}
+.mx-command-search kbd{border:1px solid #35404b;background:#0a0f14;border-radius:7px;color:#8792a2;padding:4px 7px;font:600 10px system-ui}
+.mx-command-results{max-height:min(55vh,470px);overflow:auto;padding:8px}
+.mx-command-group{padding:8px 10px 5px;color:#6f7987;font-size:10px;letter-spacing:.12em;text-transform:uppercase}
+.mx-command-item{width:100%;min-height:49px;border:1px solid transparent;border-radius:11px;background:transparent;color:#dbe1e8;padding:8px 10px;display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:10px;align-items:center;text-align:left;cursor:pointer}
+.mx-command-item:hover,.mx-command-item.active{background:#111922;border-color:#ff79003b}
+.mx-command-item .ico{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;background:#ff790010;color:#ffad3c}
+.mx-command-item strong{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mx-command-item small{display:block;color:#7f8997;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mx-command-item em{font-style:normal;color:#66717f;font-size:11px}
+.mx-command-item.danger .ico,.mx-command-item.danger em{color:#ff7380}
+.mx-command-empty{padding:28px;text-align:center;color:#7d8795}
+
+/* Share duration popover */
+.mx-share-menu{position:fixed;z-index:190;width:220px;padding:8px;border:1px solid #35404b;border-radius:14px;background:linear-gradient(180deg,#111821,#090e13);box-shadow:0 24px 70px #000b;opacity:0;pointer-events:none;transform:translateY(-5px) scale(.98);transition:.14s ease}
+.mx-share-menu.open{opacity:1;pointer-events:auto;transform:translateY(0) scale(1)}
+.mx-share-title{padding:7px 9px 8px;color:#8792a0;font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase}
+.mx-share-option{width:100%;height:42px;border:0;border-radius:9px;background:transparent;color:#dce2e8;display:flex;align-items:center;justify-content:space-between;padding:0 10px;font-weight:700;cursor:pointer}
+.mx-share-option:hover{background:#ff790014;color:#fff}
+.mx-share-option span:last-child{color:#ffad3f;font-size:11px;font-weight:600}
+
+/* Rich hover tooltip */
+.mx-file-tooltip{position:fixed;z-index:175;max-width:290px;min-width:220px;padding:11px 12px;border:1px solid #333e49;border-radius:12px;background:#0d131aee;backdrop-filter:blur(12px);box-shadow:0 18px 54px #000a;opacity:0;pointer-events:none;transform:translateY(4px);transition:.12s ease;color:#dfe5eb}
+.mx-file-tooltip.show{opacity:1;transform:translateY(0)}
+.mx-file-tooltip strong{display:block;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:8px;color:#fff}
+.mx-tip-grid{display:grid;grid-template-columns:auto 1fr;gap:5px 11px;font-size:10px}
+.mx-tip-grid span:nth-child(odd){color:#717c8b}.mx-tip-grid span:nth-child(even){color:#b8c0cb;text-align:right}
+
+/* Upload telemetry */
+.queue-meta.mx-telemetry{color:#c2cad4!important;font-variant-numeric:tabular-nums}
+.queue-meta.mx-telemetry b{color:#ffac3d;font-weight:800}
+
+/* Tiny state pill used on custom Recent/Pinned rows */
+.mx-recent-mark{display:inline-flex;align-items:center;height:18px;padding:0 6px;border-radius:999px;background:#ff790012;border:1px solid #ff790025;color:#a9b1bc;font-size:9px;margin-left:6px}
+
+@media(max-width:780px){
+  .mx-command-backdrop{padding-top:7vh;padding-left:9px;padding-right:9px}
+  .mx-command{border-radius:15px}
+  .mx-command-search kbd{display:none}
+  .mx-share-menu{width:min(240px,calc(100vw - 18px))}
+  .mx-pin{flex-basis:22px;width:22px;height:22px}
+}
+
+@media(prefers-reduced-motion:reduce){.mx-command-backdrop,.mx-command,.mx-share-menu,.mx-file-tooltip,.file-row.mx-removing{transition:none!important}}
