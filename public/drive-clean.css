@@ -30,23 +30,18 @@
   border-radius:13px!important;
   overflow:hidden!important;
 }
-.side-section-head{
-  display:flex!important;
-  align-items:center!important;
-  justify-content:space-between!important;
-  margin:18px 2px 7px!important;
-  padding:0 10px!important;
-  height:28px!important;
-  color:#7f8b99!important;
-  font-size:10px!important;
-  letter-spacing:.13em!important;
+.side-section-head{display:none!important}
+.drive-category-head,.drive-real-folders-head{
+  display:flex!important;align-items:center!important;justify-content:space-between!important;
+  margin:16px 2px 7px!important;padding:0 8px!important;height:28px!important;
+  color:#748292!important;font-size:10px!important;letter-spacing:.13em!important;font-weight:800!important;
 }
-.side-section-head button{
+.drive-category-head button,.drive-real-folders-head button{
   width:26px!important;height:26px!important;border-radius:8px!important;border:1px solid #263442!important;
   background:#0d1620!important;color:#ff9b16!important;display:grid!important;place-items:center!important;padding:0!important;
 }
-.folder-list{display:grid!important;gap:4px!important;margin:0 0 8px!important;max-height:28vh!important;overflow:auto!important;padding-right:2px!important}
-.folder-list:empty{display:none!important}
+.folder-list{display:grid!important;gap:4px!important;margin:0 0 8px!important;max-height:25vh!important;overflow:auto!important;padding-right:2px!important}
+.folder-list:empty,.folder-list:empty + *{display:none!important}
 .folder-row{grid-template-columns:minmax(0,1fr) 30px!important;gap:4px!important}
 .folder-list .side-item,.folder-row .folder-open{
   min-height:39px!important;height:39px!important;border-radius:9px!important;padding:0 9px!important;font-size:12px!important;
@@ -194,7 +189,7 @@
   .drive-nav{display:flex!important;align-items:center!important;gap:4px!important;flex:0 0 auto!important;margin:0!important}
   .drive-nav-btn{width:46px!important;height:46px!important;min-width:46px!important;min-height:46px!important;padding:0!important;justify-content:center!important;border-radius:11px!important}
   .drive-nav-btn .txt{display:none!important}.drive-nav-btn .ico{font-size:18px!important;width:auto!important}
-  .drive-sidebar-storage,.drive-side-folders,.side-section-head,.folder-list{display:none!important}
+  .drive-sidebar-storage,.drive-side-folders,.drive-category-head,.drive-real-folders-head,.folder-list{display:none!important}
 
   .content-area{padding:18px 12px 28px!important}
   .content-head{margin:0 0 14px!important}.content-head h1{font-size:25px!important}
