@@ -1,0 +1,127 @@
+/* MX File — Drive redesign hotfix 2026-10-04 */
+
+/* Never allow page-level horizontal overflow. */
+html,body{max-width:100%!important;overflow-x:hidden!important}
+.page-shell,.workspace,.content-area,.file-list,.file-row{max-width:100%!important;min-width:0!important}
+.sidebar{overflow-x:hidden!important}
+
+/* Hidden really means hidden. Older dashboard rules used !important display values. */
+[hidden],.bulk-bar[hidden],.detail-section[hidden],.activity-view[hidden]{display:none!important}
+
+/* Bulk actions only appear when there is an actual selection. */
+.bulk-bar{display:flex!important;align-items:center!important;justify-content:space-between!important;min-height:48px!important}
+.bulk-bar[hidden]{display:none!important}
+
+/* Replace the pseudo text header with a real four-column header. */
+.file-list:before{display:none!important;content:none!important}
+.drive-table-head{
+  grid-column:1!important;
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) 92px 168px 180px!important;
+  gap:14px!important;
+  align-items:center!important;
+  min-height:38px!important;
+  padding:0 14px 0 18px!important;
+  margin:0!important;
+  border:1px solid #1b2935!important;
+  border-bottom:0!important;
+  border-radius:12px 12px 0 0!important;
+  background:#09111a!important;
+  color:#8190a0!important;
+  font-size:11px!important;
+  font-weight:650!important;
+}
+.drive-table-head span:last-child{text-align:right!important;padding-right:8px!important}
+.drive-table-head + .file-list{border-radius:0 0 12px 12px!important}
+
+/* File row: hard-map every element to its intended column. */
+.file-row{
+  position:relative!important;
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) 92px 168px 180px!important;
+  grid-template-areas:"name size modified actions"!important;
+  gap:14px!important;
+  align-items:center!important;
+  min-height:64px!important;
+  height:auto!important;
+  padding:9px 14px 9px 12px!important;
+  overflow:hidden!important;
+}
+.file-row>.select-box{position:absolute!important;left:8px!important;top:50%!important;transform:translateY(-50%)!important;z-index:2!important}
+.file-row>.select-box[hidden]{display:none!important}
+.file-row>.file-main{grid-area:name!important;grid-column:1!important;min-width:0!important;width:100%!important;display:flex!important;align-items:center!important;gap:12px!important;overflow:hidden!important}
+.file-row>.file-size{grid-area:size!important;grid-column:2!important;min-width:0!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+.file-row>.file-date{grid-area:modified!important;grid-column:3!important;min-width:0!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+.file-row>.file-downloads{display:none!important}
+.file-row>.file-actions{grid-area:actions!important;grid-column:4!important;min-width:0!important;width:100%!important;display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:5px!important;overflow:visible!important}
+
+/* Prevent long names from ever becoming vertical/letter-by-letter. */
+.file-copy{display:block!important;flex:1 1 auto!important;min-width:0!important;width:auto!important;max-width:100%!important;overflow:hidden!important}
+.mx-name-line{display:flex!important;align-items:center!important;gap:7px!important;min-width:0!important;width:100%!important;max-width:100%!important;overflow:hidden!important;white-space:nowrap!important}
+.mx-name-line .mx-pin{flex:0 0 20px!important;width:20px!important;min-width:20px!important;height:24px!important;padding:0!important;margin:0!important;display:grid!important;place-items:center!important}
+.file-name{
+  display:block!important;
+  flex:1 1 auto!important;
+  min-width:0!important;
+  max-width:100%!important;
+  width:auto!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  word-break:normal!important;
+  overflow-wrap:normal!important;
+  writing-mode:horizontal-tb!important;
+  text-orientation:mixed!important;
+  line-height:1.35!important;
+}
+.file-sub{display:none!important}
+
+/* Icons stay compact and never steal the name column. */
+.file-icon{flex:0 0 40px!important;width:40px!important;height:40px!important;min-width:40px!important}
+.file-actions .icon-btn{flex:0 0 32px!important;width:32px!important;min-width:32px!important;height:32px!important;padding:0!important}
+
+/* Cleaner list container. */
+.file-list{overflow:hidden!important;border-top:1px solid #1b2935!important}
+.file-list .empty-state{min-height:180px!important;display:grid!important;place-items:center!important}
+
+/* Keep footer subtle and prevent it from producing a horizontal scrollbar. */
+footer{width:auto!important;max-width:180px!important;left:26px!important;right:auto!important;white-space:nowrap!important;overflow:hidden!important}
+
+/* Detail panel should not squeeze the file-name column beyond usability. */
+@media(min-width:961px){
+  .content-area:has(.detail-section:not([hidden])) .file-row,
+  .content-area:has(.detail-section:not([hidden])) .drive-table-head{
+    grid-template-columns:minmax(220px,1fr) 76px 132px 112px!important;
+  }
+  .content-area:has(.detail-section:not([hidden])) .file-actions .icon-btn[data-action="copy"]{display:none!important}
+}
+
+@media(max-width:1180px){
+  .file-row,.drive-table-head{grid-template-columns:minmax(210px,1fr) 74px 136px 112px!important}
+  .file-actions .icon-btn[data-action="copy"]{display:none!important}
+}
+
+@media(max-width:860px){
+  .drive-table-head{grid-template-columns:minmax(0,1fr) 110px!important}
+  .drive-table-head span:nth-child(2),.drive-table-head span:nth-child(3){display:none!important}
+  .file-row{
+    grid-template-columns:minmax(0,1fr) 110px!important;
+    grid-template-areas:"name actions"!important;
+  }
+  .file-row>.file-main{grid-column:1!important}
+  .file-row>.file-size,.file-row>.file-date{display:none!important}
+  .file-row>.file-actions{grid-column:2!important}
+  .file-actions .icon-btn[data-action="copy"],
+  .file-actions .icon-btn[data-action="share"],
+  .file-actions .icon-btn[data-action="qr"],
+  .file-actions .icon-btn[data-action="edit"]{display:none!important}
+}
+
+@media(max-width:520px){
+  .drive-table-head{display:none!important}
+  .drive-table-head + .file-list{border-radius:12px!important}
+  .file-row{grid-template-columns:minmax(0,1fr) 50px!important;gap:8px!important;padding:9px!important}
+  .file-actions .icon-btn:not([data-action="trash"]){display:none!important}
+  .file-actions .icon-btn[data-action="trash"]{display:grid!important}
+  .mx-name-line .mx-pin{flex-basis:18px!important;width:18px!important;min-width:18px!important}
+}
