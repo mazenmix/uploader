@@ -1,0 +1,42 @@
+/* MX Drive branding + details drawer cleanup */
+.brand{display:flex!important;align-items:center!important;gap:11px!important;min-width:0!important}
+.brand>.brand-mark{width:48px!important;height:48px!important;min-width:48px!important;border:0!important;border-radius:13px!important;background:#000 url('/mx-drive-logo.svg?v=20261004-1') center/cover no-repeat!important;color:transparent!important;box-shadow:0 0 0 1px rgba(255,255,255,.06),0 0 22px rgba(255,138,0,.08)!important;overflow:hidden!important}
+.brand-copy{min-width:0!important;display:flex!important;align-items:center!important}
+.brand-copy strong{font-size:19px!important;line-height:1!important;letter-spacing:.005em!important;text-transform:none!important;white-space:nowrap!important}
+.brand-copy small{display:none!important}
+footer{display:none!important}
+
+/* The old hover info card is redundant with the details drawer. */
+.mx-file-tooltip{display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important}
+
+/* Drawer header and close button */
+.detail-section:not([hidden]){overflow:auto!important}
+.preview-card{overflow:hidden!important}
+.detail-card-head{position:relative!important;min-height:54px!important;height:54px!important;padding:0 50px 0 14px!important;display:flex!important;align-items:center!important;border-bottom:1px solid #1c2a36!important;background:#0d1721!important;z-index:2!important}
+.detail-card-head strong{display:block!important;min-width:0!important;max-width:100%!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;font-size:13px!important;line-height:1.2!important}
+.close-detail{position:absolute!important;top:11px!important;right:11px!important;width:32px!important;height:32px!important;min-width:32px!important;min-height:32px!important;margin:0!important;padding:0!important;border:1px solid #293a49!important;border-radius:9px!important;background:#111d28!important;color:#aeb9c5!important;display:grid!important;place-items:center!important;font-size:19px!important;font-weight:500!important;line-height:1!important;box-shadow:none!important}
+.close-detail:hover{background:#172532!important;border-color:rgba(255,138,0,.45)!important;color:#fff!important;transform:none!important}
+
+/* Cleaner preview area */
+.preview-box{margin:12px 12px 10px!important;min-height:150px!important;border-radius:11px!important;overflow:hidden!important}
+.preview-box audio{width:calc(100% - 20px)!important;max-width:100%!important;margin:auto!important}
+
+/* Remove the orange download bar from the drawer completely. */
+#downloadBtn{display:none!important}
+.action-grid{display:grid!important;grid-template-columns:1fr!important;gap:8px!important;padding:0 12px 14px!important;margin:0!important}
+.action-grid #previewBtn,.action-grid #qrBtn,.action-grid #moveBtn{display:none!important}
+.action-grid #shareBtn,.action-grid #copyBtn,.action-grid #renameBtn,.action-grid #deleteBtn{width:100%!important;min-height:40px!important;height:40px!important;margin:0!important;border-radius:9px!important}
+.action-grid #shareBtn,.action-grid #copyBtn,.action-grid #renameBtn{background:#0c151d!important;border:1px solid #223340!important;color:#d2d9e1!important}
+.action-grid #deleteBtn{background:rgba(150,29,41,.42)!important;border:1px solid rgba(255,95,109,.35)!important;color:#ff7c86!important}
+
+/* Make inspector sit cleanly under actions with no overlap. */
+.inspector-card{position:relative!important;z-index:1!important;border-top:1px solid #1c2a36!important;background:transparent!important}
+.inspector-tabs{background:#0b141d!important}
+.inspector-content{background:#091119!important}
+
+@media(max-width:760px){
+  .brand>.brand-mark{width:42px!important;height:42px!important;min-width:42px!important;border-radius:12px!important}
+  .brand-copy strong{font-size:15px!important}
+  .detail-card-head{min-height:52px!important;height:52px!important;padding-right:48px!important}
+  .close-detail{top:10px!important;right:10px!important}
+}
