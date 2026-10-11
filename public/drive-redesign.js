@@ -89,7 +89,7 @@
       try{
         const token=sessionStorage.getItem('mx_admin_token')||'';
         if(!token) return;
-        const r=await fetch('/api/files?view=files',{cache:'no-store',headers:{Authorization:`Bearer ${token}`}});
+        const r=await fetch('/api/files?view=files',{cache:'no-store',headers:{Authorization:`Bearer ${encodeURIComponent(token)}`}});
         if(!r.ok) return;
         const d=await r.json(), files=d.files||[], folders=d.folders||[];
         folderGrid.innerHTML='';
