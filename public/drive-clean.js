@@ -18,7 +18,7 @@
     try{
       const token=sessionStorage.getItem('mx_admin_token')||'';
       if(!token)return blank;
-      const r=await fetch('/api/files?view=files',{cache:'no-store',headers:{Authorization:`Bearer ${token}`}});
+      const r=await fetch('/api/files?view=files',{cache:'no-store',headers:{Authorization:`Bearer ${encodeURIComponent(token)}`}});
       if(!r.ok)return blank;
       const data=await r.json();
       for(const f of data.files||[]) blank[typeGroup(f)]++;
