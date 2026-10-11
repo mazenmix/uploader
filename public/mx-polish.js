@@ -66,7 +66,7 @@ async function clearActivityLog(){
   clearActivity.textContent='Clearing…';
   try{
     const token=sessionStorage.getItem('mx_admin_token')||'';
-    const response=await fetch('/api/activity-clear',{method:'POST',headers:{Authorization:`Bearer ${token}`},cache:'no-store'});
+    const response=await fetch('/api/activity-clear',{method:'POST',headers:{Authorization:`Bearer ${encodeURIComponent(token)}`},cache:'no-store'});
     const data=await response.json().catch(()=>({}));
     if(!response.ok)throw new Error(data.error||`Request failed (${response.status})`);
 
