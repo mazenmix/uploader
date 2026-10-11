@@ -31,7 +31,7 @@ async function emptyTrash(){
   button.textContent='Emptying…';
   try{
     const token=sessionStorage.getItem('mx_admin_token')||'';
-    const response=await fetch('/api/empty-trash',{method:'POST',headers:{Authorization:`Bearer ${token}`}});
+    const response=await fetch('/api/empty-trash',{method:'POST',headers:{Authorization:`Bearer ${encodeURIComponent(token)}`}});
     const data=await response.json().catch(()=>({}));
     if(!response.ok)throw new Error(data.error||`Request failed (${response.status})`);
 
