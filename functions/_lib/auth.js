@@ -1,7 +1,11 @@
 export function isAuthorized(request, env) {
   const expected = env.ADMIN_TOKEN;
   if (!expected) return false;
-  return request.headers.get("Authorization") === `Bearer ${expected}`;
+  // Keep existing bearer tokens valid while accepting percent-encoded UTF-8 tokens
+  // from browsers. Authorization headers cannot carry arbitrary Unicode directly.
+  const received = request.headers.get("Authorization");
+  return received === `Bearer ${expected}` ||
+    received === `Bearer ${encodeURIComponent(expected)}`;
 }
 
 export function requireAdmin(request, env) {
