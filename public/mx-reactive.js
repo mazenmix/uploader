@@ -181,7 +181,7 @@
     const name=record?.name||detailName||$('#previewTitle')?.textContent?.trim()||'this file';
     if(!confirm(`Move ${name} to Trash?`))return;
     button.disabled=true;
-    nativeFetch('/api/manage?action=trash',{method:'POST',headers:{'Content-Type':'application/json',Authorization:`Bearer ${sessionStorage.getItem('mx_admin_token')||''}`},body:JSON.stringify({id:detailId})})
+    nativeFetch('/api/manage?action=trash',{method:'POST',headers:{'Content-Type':'application/json',Authorization:`Bearer ${encodeURIComponent(sessionStorage.getItem('mx_admin_token')||'')}`},body:JSON.stringify({id:detailId})})
       .then(async response=>{
         const data=await response.json().catch(()=>({}));
         if(!response.ok)throw new Error(data.error||`Request failed (${response.status})`);
