@@ -11,7 +11,7 @@ let token = sessionStorage.getItem('mx_admin_token') || '';
 let files = [];
 
 function authHeaders(extra = {}) {
-  return { ...extra, Authorization: `Bearer ${token}` };
+  return { ...extra, Authorization: `Bearer ${encodeURIComponent(token)}` };
 }
 
 async function api(path, options = {}) {
