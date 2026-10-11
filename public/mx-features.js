@@ -24,7 +24,7 @@ let draggingId='';
 let tooltipTimer=0;
 let tooltipPoint={x:0,y:0};
 
-function authHeaders(extra={}){return{...extra,Authorization:`Bearer ${sessionStorage.getItem('mx_admin_token')||''}`}}
+function authHeaders(extra={}){return{...extra,Authorization:`Bearer ${encodeURIComponent(sessionStorage.getItem('mx_admin_token')||'')}`}}
 async function api(path,options={}){
   const response=await fetch(path,{...options,cache:'no-store',headers:authHeaders(options.headers||{})});
   const data=await response.json().catch(()=>({}));
