@@ -1,25 +1,53 @@
-name: MX File secure asset build
+name: MX File protected publisher
 on:
   push:
-    branches: [main]
+    branches: [main, source]
   workflow_dispatch:
 permissions:
-  contents: read
+  contents: write
+concurrency:
+  group: mx-file-protected-publisher
+  cancel-in-progress: false
 jobs:
-  verify-secure-assets:
+  publish-obfuscated-assets:
+    if: github.event_name == 'workflow_dispatch' || !contains(github.event.head_commit.message, '[obfuscated-build]')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout existing production branch
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: true
+      - name: Checkout original source in isolated temporary directory
+        uses: actions/checkout@v4
+        with:
+          ref: source
+          path: .source-code
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Install build dependencies
-        run: npm install --no-audit --no-fund
-      - name: Build obfuscated website
-        run: npm run build
-      - name: Validate generated files
+      - name: Build secured static output from original source
         run: |
-          test -f dist/index.html
-          test -f dist/dashboard.js
-          test -z "$(find dist -type f -name '*.map' -print -quit)"
-          node --check dist/dashboard.js
+          cd .source-code
+          npm install --no-audit --no-fund
+          npm run build
+      - name: Validate protected output
+        run: |
+          test -f .source-code/dist/index.html
+          test -f .source-code/dist/dashboard.js
+          test -z "$(find .source-code/dist -type f -name '*.map' -print -quit)"
+          node --check .source-code/dist/dashboard.js
+      - name: Publish obfuscated files in existing Cloudflare Pages directory
+        run: |
+          cp -a .source-code/dist/. public/
+          cp -a .source-code/functions/. functions/
+          git add -A public functions
+          if git diff --cached --quiet; then
+            echo "Production assets already match the protected build."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Build: publish obfuscated browser assets [obfuscated-build]"
+          git push origin HEAD:main
