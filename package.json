@@ -5,9 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "wrangler pages dev public",
-    "deploy": "wrangler pages deploy public"
+    "deploy": "npm run build && wrangler pages deploy dist --project-name mxfile",
+    "build": "node tools/secure-build.mjs public",
+    "preview:secure": "npm run build && wrangler pages dev dist"
   },
   "devDependencies": {
-    "wrangler": "^4.143.0"
+    "wrangler": "^4.143.0",
+    "esbuild": "^0.25.12",
+    "javascript-obfuscator": "^4.1.1"
   }
 }
