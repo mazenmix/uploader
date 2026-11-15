@@ -66,3 +66,38 @@
   .drive-filter-menu{width:170px!important}
   .brand-copy strong{font-size:15px!important}
 }
+
+
+/* Keep the iPhone file-detail exit reachable without scrolling or browser back. */
+#mxFileReturn{display:none!important}
+@media(max-width:760px){
+  .topbar{
+    position:fixed!important;
+    top:0!important;left:0!important;right:0!important;
+    width:100%!important;box-sizing:border-box!important;
+    z-index:120!important;
+    height:calc(66px + env(safe-area-inset-top))!important;
+    min-height:calc(66px + env(safe-area-inset-top))!important;
+    padding-top:calc(8px + env(safe-area-inset-top))!important;
+  }
+  body{padding-top:calc(66px + env(safe-area-inset-top))!important}
+  .detail-section:not([hidden]){
+    top:calc(76px + env(safe-area-inset-top))!important;
+    z-index:90!important;
+  }
+  body.mx-detail-open .topbar{grid-template-columns:minmax(0,1fr)!important}
+  body.mx-detail-open .topbar .drive-top-tools,
+  body.mx-detail-open .topbar .top-actions{display:none!important}
+  #mxFileReturn:not([hidden]){
+    display:inline-flex!important;align-items:center!important;justify-content:center!important;
+    position:absolute!important;right:12px!important;top:calc(50% + env(safe-area-inset-top)/2)!important;
+    transform:translateY(-50%)!important;
+    z-index:125!important;min-height:38px!important;
+    padding:0 14px!important;
+    border:1px solid #ff8a0080!important;border-radius:10px!important;
+    background:#ff8a00!important;color:#10151b!important;
+    font:600 13px system-ui,-apple-system,sans-serif!important;
+    white-space:nowrap!important;cursor:pointer!important;
+    -webkit-tap-highlight-color:transparent;
+  }
+}
