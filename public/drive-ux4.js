@@ -8,6 +8,31 @@
     const filterBar=$('#filterBar');
     const detail=$('#detailSection');
     const closeDetail=$('#closeDetail');
+    // Mobile file details must always offer a visible return to the main file list.
+    if(detail && closeDetail && !$('#mxFileReturn')){
+      const returnButton=document.createElement('button');
+      returnButton.id='mxFileReturn';
+      returnButton.type='button';
+      returnButton.textContent='← My Drive';
+      returnButton.setAttribute('aria-label','Back to My Drive');
+      $('.topbar')?.appendChild(returnButton);
+
+      const syncFileNavigation=()=>{
+        const isOpen=!detail.hidden;
+        document.body.classList.toggle('mx-detail-open',isOpen);
+        returnButton.hidden=!isOpen;
+      };
+      returnButton.addEventListener('click',()=>{
+        closeDetail.click();
+        $('.nav-btn[data-topview="files"]')?.click();
+        window.scrollTo({top:0,behavior:'auto'});
+      });
+      new MutationObserver(syncFileNavigation).observe(detail,{
+        attributes:true,attributeFilter:['hidden']
+      });
+      syncFileNavigation();
+    }
+
 
     // Rename normal files view to My Drive without disturbing Recent/Pinned modes.
     const normalizeTitle=()=>{
