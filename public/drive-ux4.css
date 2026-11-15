@@ -90,7 +90,7 @@
   body.mx-detail-open .topbar .top-actions{display:none!important}
   #mxFileReturn:not([hidden]){
     display:inline-flex!important;align-items:center!important;justify-content:center!important;
-    position:absolute!important;right:12px!important;top:calc(50% + env(safe-area-inset-top)/2)!important;
+    position:absolute!important;right:12px!important;top:calc(33px + env(safe-area-inset-top))!important;
     transform:translateY(-50%)!important;
     z-index:125!important;min-height:38px!important;
     padding:0 14px!important;
